@@ -1,0 +1,3 @@
+$ brew install libsodium
+$ brew install zmq --with-libsodium
+$ brew install czmq

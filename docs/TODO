@@ -1,0 +1,9 @@
+!- Filesystem Handler
+!    - Check if File Exists
+!    - Create Directory
+
+- Config Parser
+    - Create ~/.agorial if does not exist
+    - Create default agorial.conf is one does not exist
+
+- Replace std::cout with Logger
