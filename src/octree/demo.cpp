@@ -1,14 +1,11 @@
 #include "octree.h"
+#include <iostream>
+#include <fstream>
 
 #ifdef WIN32
 #include <tchar.h>
 int _tmain(int argc, _TCHAR* argv[])
 #else
-
-#include <iostream>
-#include <fstream>
-
-
 int main(int argc, char* argv[])
 #endif
 {
