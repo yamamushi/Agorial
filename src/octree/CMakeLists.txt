@@ -1,0 +1,11 @@
+set(AgorialServer_HEADERS
+   ${AgorialServer_HEADERS}
+   ${CMAKE_CURRENT_SOURCE_DIR}/array.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/array2d.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/numtraits.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/octree.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/point3d.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/shareddata.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/tinyvector.h
+   PARENT_SCOPE
+)

@@ -18,11 +18,13 @@ INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIRS}
 
 add_subdirectory(account)
 add_subdirectory(client)
+add_subdirectory(database)
 add_subdirectory(engine)
 add_subdirectory(entity)
 add_subdirectory(handlers)
 add_subdirectory(managers)
 add_subdirectory(network)
+add_subdirectory(octree)
 add_subdirectory(parsers)
 add_subdirectory(player)
 add_subdirectory(server)
