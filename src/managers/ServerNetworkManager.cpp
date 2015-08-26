@@ -5,9 +5,11 @@
 #include "ServerNetworkManager.h"
 #include "handlers/FilesystemHandler.h"
 #include "managers/PlayerManager.h"
+#include "util/ServerGlobalLogger.h"
 
 #include <iostream>
 #include <msgpack.hpp>
+#include <sstream>
 
 ServerNetworkManager* ServerNetworkManager::m_pInstance = NULL;
 
@@ -51,12 +53,15 @@ void * ServerNetworkManager::serverCommunicationsThread(void *arg)
 
         // print the deserialized object.
         msgpack::object obj = msg.get();
-        std::cout << obj << std::endl;
+
+        std::stringstream stringoutstream;
+        stringoutstream << obj;
+        GlobalLogger::I()->Log(stringoutstream.str(), LogLevel::DEBUG);
 
         // convert it into statically typed object.
         std::vector<std::string> rvec;
         obj.convert(&rvec);
-        std::cout << rvec.at(0) << std::endl;
+        GlobalLogger::I()->Log(rvec.at(0), LogLevel::DEBUG);
 
         std::vector<std::string> outboundResponseVector;
 
@@ -96,12 +101,12 @@ void * ServerNetworkManager::serverCommunicationsThread(void *arg)
 bool ServerNetworkManager::init(int port, std::string certPath, int listenerThreads) {
 
     if(!FilesystemHandler::I()->doesFileExist(certPath)){
-        std::cerr << "Error: Certificate Does not Exist: " << certPath << std::endl;
+        GlobalLogger::I()->Log("Certificate Does Not Exist: " + certPath, LogLevel::ERROR);
         return false;
     }
 
     if(port > 65535 || port < 1000){
-        std::cerr << "Error: Port Number out of Range: " << std::to_string(port) << std::endl;
+        GlobalLogger::I()->Log("Port Number out of Range: " + std::to_string(port), LogLevel::ERROR);
         return false;
     }
 
@@ -120,7 +125,7 @@ bool ServerNetworkManager::init(int port, std::string certPath, int listenerThre
     for (int i = 0; i < 1; i++) {
         m_threadList.push_back(std::thread(serverCommunicationsThread, &m_context));
     }
-    std::cerr << "Server Initialized" << std::endl;
+    GlobalLogger::I()->Log("Server Initialized", LogLevel::INFO);
     //  Connect work threads to client threads via a queue
     zmq::proxy((void*)serverSocket, (void*)workerSocket, NULL);
 

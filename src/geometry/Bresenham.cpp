@@ -19,7 +19,7 @@
 // A slightly modified version of the code found at
 // http://roguebasin.roguelikedevelopment.org/index.php?title=Bresenham%27s_Line_Algorithm
 
-void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpath path){
+void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dPathPoints *path){
     int delta_x(x2 - x1);
     // if x1 == x2, then it does not matter what we set here
     signed char const ix((delta_x > 0) - (delta_x < 0));
@@ -32,7 +32,7 @@ void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpa
 
     //plot(x1, y1);
     //output->setTileSymbol(x1, y1, symbol);
-    path.pathPoints.push_back(std::make_pair(x1, y1));
+    path->push_back(std::make_pair(x1, y1));
 
     if (delta_x >= delta_y)
     {
@@ -53,7 +53,7 @@ void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpa
 
             //plot(x1, y1);
             // output->setTileSymbol(x1, y1, symbol);
-            path.pathPoints.push_back(std::make_pair(x1, y1));
+            path->push_back(std::make_pair(x1, y1));
         }
     }
     else
@@ -75,7 +75,7 @@ void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpa
 
             //plot(x1, y1);
             //output->setTileSymbol(x1, y1, symbol);
-            path.pathPoints.push_back(std::make_pair(x1, y1));
+            path->push_back(std::make_pair(x1, y1));
         }
     }
 }
@@ -103,7 +103,7 @@ void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpa
 //
 
 
-void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const int z2, Bresenham_3dpath path){
+void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const int z2, Bresenham_3dPathPoints *path){
 
     // if( (std::max(x1,x2) > output->getX()) || (std::max(y1,y2) > output->getY()) || std::max(z1,z2) > output->getZ() )
     //     return;
@@ -132,7 +132,7 @@ void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const 
         err_2 = dz2 - l;
         for (i = 0; i < l; i++) {
             //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-            path.pathPoints.push_back(std::make_tuple(point[0], point[1], point[2]));
+            path->push_back(std::make_tuple(point[0], point[1], point[2]));
             if (err_1 > 0) {
                 point[1] += y_inc;
                 err_1 -= dx2;
@@ -150,7 +150,7 @@ void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const 
         err_2 = dz2 - m;
         for (i = 0; i < m; i++) {
             //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-            path.pathPoints.push_back(std::make_tuple(point[0], point[1], point[2]));
+            path->push_back(std::make_tuple(point[0], point[1], point[2]));
             if (err_1 > 0) {
                 point[0] += x_inc;
                 err_1 -= dy2;
@@ -168,7 +168,7 @@ void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const 
         err_2 = dx2 - n;
         for (i = 0; i < n; i++) {
             //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-            path.pathPoints.push_back(std::make_tuple(point[0], point[1], point[2]));
+            path->push_back(std::make_tuple(point[0], point[1], point[2]));
             if (err_1 > 0) {
                 point[1] += y_inc;
                 err_1 -= dz2;
@@ -183,5 +183,17 @@ void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const 
         }
     }
     //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-    path.pathPoints.push_back(std::make_tuple(point[0], point[1], point[2]));
+    path->push_back(std::make_tuple(point[0], point[1], point[2]));
 }
+
+
+bool pointInEllipse(point pointTest, point center, int width, int height){
+    int dx = pointTest.x - center.x;
+    int dy = pointTest.y - center.y;
+
+    if(( dx * dx ) / ( width * width ) + ( dy * dy ) / ( height * height ) <= 1)
+        return true;
+    else
+        return false;
+}
+

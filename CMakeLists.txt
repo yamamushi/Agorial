@@ -191,4 +191,5 @@ if(NOT RPM)
   endif()
 endif()
 
+add_subdirectory(deps)
 add_subdirectory(src)

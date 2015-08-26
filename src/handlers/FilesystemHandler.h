@@ -6,6 +6,9 @@
 #define AGORIAL_FILESYSTEMHANDLER_H
 
 #include <string>
+#include <utility>
+
+#include "types/LogLevels.h"
 
 class FilesystemHandler {
 
@@ -14,7 +17,7 @@ public:
     static FilesystemHandler* I();
 
     bool doesFileExist(std::string fileName);
-    bool createDirectory(std::string dirName);
+    std::pair<std::string, LogLevel> createDirectory(std::string dirName);
 
 
 private:

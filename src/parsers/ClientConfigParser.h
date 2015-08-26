@@ -18,6 +18,8 @@ public:
     bool parse();
 
     std::string getHomePath(){return m_homePath;}
+    std::string getRootPath(){return m_rootPath;}
+
 
     std::string getConfigPath(){return m_configPath;}
     std::string getLoginServerHost(){return m_login_server_host;}
@@ -53,6 +55,8 @@ private:
     std::string m_homePath;
 
     std::string m_configPath;
+    std::string m_rootPath;
+
     std::string m_login_server_host;
     int m_login_server_port;
 

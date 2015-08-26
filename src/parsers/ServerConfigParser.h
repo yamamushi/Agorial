@@ -20,6 +20,9 @@ public:
     std::string getHomePath(){return m_homePath;}
 
     std::string getConfigPath(){return m_configPath;}
+    std::string getRootPath(){return m_rootPath;}
+
+    int getLogLevel(){return m_logLevel;}
     std::string getLoginServerHost(){return m_login_server_host;}
     int getLoginServerPort(){return m_login_server_port;}
 
@@ -52,6 +55,10 @@ private:
     std::string m_homePath;
 
     std::string m_configPath;
+    std::string m_rootPath;
+
+    int m_logLevel;
+
     std::string m_login_server_host;
     int m_login_server_port;
     int m_serverListenerThreads;

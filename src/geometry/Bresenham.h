@@ -12,24 +12,21 @@
 #include <vector>
 #include <utility>
 
+typedef std::vector<std::pair<int, int> > Bresenham_2dPathPoints;
 
+typedef std::vector<std::tuple<int, int, int> > Bresenham_3dPathPoints;
 
-struct Bresenham_2dpath{
+// Use these to fill a path struct
+void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dPathPoints *path);
+void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const int z2, Bresenham_3dPathPoints *path);
 
-std::vector<std::pair<int, int> > pathPoints;
+// Use these to validate a specific point from a path struct
+bool BresenhamDoesIntersect(Bresenham_2dPathPoints pathPoints, int pointX, int pointY);
+bool BresenhamDoesIntersect(Bresenham_3dPathPoints pathPoints, int pointX, int pointY, int pointZ);
 
-};
+struct point{int x; int y;};
 
-
-struct Bresenham_3dpath{
-
-    std::vector<std::tuple<int, int, int> > pathPoints;
-
-};
-
-
-void BresenhamCheck2D(int x1, int y1, int const x2, int const y2, Bresenham_2dpath path);
-void BresenhamCheck3D(int x1, int y1, int z1, const int x2, const int y2, const int z2, Bresenham_3dpath path);
+bool pointInEllipse(point pointTest, point center, int width, int height);
 
 
 #endif //AGORIAL_BRESENHAM_H

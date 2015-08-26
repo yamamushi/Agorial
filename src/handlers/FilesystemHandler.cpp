@@ -3,7 +3,6 @@
 //
 
 #include "FilesystemHandler.h"
-
 #include <boost/filesystem.hpp>
 #include <iostream>
 
@@ -19,29 +18,25 @@ FilesystemHandler* FilesystemHandler::I()
 }
 
 
-bool FilesystemHandler::createDirectory(std::string dirName) {
+std::pair<std::string, LogLevel>  FilesystemHandler::createDirectory(std::string dirName) {
 
     boost::filesystem::path newDir(dirName);
 
     if(doesFileExist(dirName)){
-
-        std::cerr << "Failed to create directory: " + dirName + " - Directory Already Exists" << std::endl;
-        return false;
+        return std::pair<std::string, LogLevel>("Failed to create directory: " + dirName + " - Directory Already Exists", LogLevel::ERROR);
     }
 
 
     else {
         try {
             boost::filesystem::create_directory(newDir);
-            return true;
+            return std::pair<std::string, LogLevel>("Directory " + dirName + " Created", LogLevel::INFO);
         }
         catch(std::exception& e) {
-            std::cerr << "error: " << e.what() << std::endl;
-            return false;
+            return std::pair<std::string, LogLevel>(e.what(), LogLevel::ERROR);
         }
         catch(...){
-            std::cerr << "Exception of unknown type!" << std::endl;
-            return false;
+            return std::pair<std::string, LogLevel>("FilesystemHandler - Exception of unknown type!", LogLevel::ERROR);
         }
     }
 

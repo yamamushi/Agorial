@@ -40,6 +40,8 @@ ClientConfigParser::ClientConfigParser() {
     m_description->add_options()
             ("config,c", boost::program_options::value<std::string>(&m_configPath)->default_value(
                     m_homePath + "/.agorial/agorial.conf"), "Configuration file path")
+            ("root,c", boost::program_options::value<std::string>(&m_rootPath)->default_value(
+                    m_homePath + "/.agorial/"), "Root file path")
             ("help,h", "display this help text")
             ("version,v", "display version number");
 

@@ -6,6 +6,7 @@
 #include "util/Constants.h"
 #include "util/IsNumber.h"
 #include "handlers/FilesystemHandler.h"
+#include "types/LogLevels.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/progress.hpp>
@@ -40,12 +41,16 @@ ServerConfigParser::ServerConfigParser() {
     m_description->add_options()
             ("config,c", boost::program_options::value<std::string>(&m_configPath)->default_value(
                     m_homePath + "/.agorial/agorialserver.conf"), "Configuration file path")
+            ("root", boost::program_options::value<std::string>(&m_rootPath)->default_value(
+                    m_homePath + "/.agorial/"), "Root file path")
             ("help,h", "display this help text")
             ("version,v", "display version number");
 
     m_config = new boost::program_options::options_description("Config File Options");
 
     m_config->add_options()
+            ("debug.log_level", boost::program_options::value<int>(&m_logLevel)->default_value(5),
+             "Log Level")
             ("network.login_server_host",
              boost::program_options::value<std::string>(&m_login_server_host)->default_value("localhost"),
              "Login Server Hostname")
@@ -137,11 +142,15 @@ bool ServerConfigParser::saveConfig(std::string savePath) {
 
     boost::property_tree::ptree outputTree;
 
+    boost::property_tree::ptree debugSettings;
+    debugSettings.put("log_level", m_logLevel);
+
     boost::property_tree::ptree networkSettings;
     networkSettings.put("login_server_host", m_login_server_host);
     networkSettings.put("login_server_port", std::to_string(m_login_server_port));
     networkSettings.put("cert_path", m_certPath);
 
+    outputTree.push_front(boost::property_tree::ptree::value_type("debug", debugSettings));
     outputTree.push_front(boost::property_tree::ptree::value_type("network", networkSettings));
 
     boost::property_tree::write_ini( savePath, outputTree );

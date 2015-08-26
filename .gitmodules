@@ -1,0 +1,3 @@
+[submodule "deps/asyncplusplus"]
+	path = deps/asyncplusplus
+	url = https://github.com/Amanieu/asyncplusplus
